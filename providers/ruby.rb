@@ -135,15 +135,17 @@ def install_ruby_dependencies(rubie)
                     ncurses-dev automake libtool bison ssl-cert pkg-config libgdbm-dev libffi-dev}
         pkgs += %w{ subversion }  if rubie =~ /^ruby-head$/
       when "suse"
-        pkgs = %w{ gcc-c++ patch libffi-devel sqlite3-devel libxml2-devel libxslt-devel }
-        if node['platform_version'].to_f >= 12.1
-          pkgs += %w{ libz1 libreadline6 libopenssl-devel }
+        pkgs = %w{ gcc-c++ patch sqlite3-devel libxml2-devel libxslt-devel }
+        if node['platform_version'].to_f >= 12.3
+          pkgs += %w{ libz1 libreadline6 libopenssl-devel libffi48-devel }
+        elsif node['platform_version'].to_f >= 12.1
+          pkgs += %w{ libz1 libreadline6 libopenssl-devel libffi-devel }
         elsif node['platform_version'].to_f >= 12.0
-          pkgs += %w{ zlib libreadline6 libopenssl-devel }
+          pkgs += %w{ zlib libreadline6 libopenssl-devel libffi-devel }
         elsif node['platform_version'].to_f >= 11.0
-          pkgs += %w{ zlib libreadline5 libopenssl-devel }
+          pkgs += %w{ zlib libreadline5 libopenssl-devel libffi-devel }
         else
-          pkgs += %w{ zlib readline openssl-devel }
+          pkgs += %w{ zlib readline openssl-devel libffi-devel }
         end
         pkgs += %w{ zlib-devel readline-devel }
         pkgs += %w{ git subversion autoconf } if rubie =~ /^ruby-head$/
